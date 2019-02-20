@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>管理后台</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="javascript:sidebarNoneToggle()">管理后台</a>
+
+        <ol id="navbar-router" class="navbar-text">
+          <li>HOME</li>
+        </ol>
+
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-tool" aria-expanded="true" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div id="navbar-tool" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#/setting">设置</a></li>
+          <li><a href="#/help">帮助</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="sidebar" class="sidebar sidebar-default sidebar-fixed-left">
+      <div class="sidebar-toggle">
+        <button onClick="sidebarSimpleToggle()" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      </div>
+
+      <div id="sidebar-accordion" class="sidebar-accordion">
+        <ul class="nav sidebar-nav">
+          <li class="active">
+            <a href="#/home">
+              <i class="glyphicon glyphicon-home"></i><span>HOME</span>
+            </a>
+          </li>
+          <li>
+            <a href="#nav-basicinfo" data-toggle="collapse" aria-expanded="false" aria-controls="nav-basicinfo">
+              <i class="glyphicon glyphicon-cog"></i><span>基础信息</span>
+            </a>
+            <ul id="nav-basicinfo" class="nav collapse">
+              <li><a href="#/basicinfo/user"><span>用户管理</span></a></li>
+              <li><a href="#/basicinfo/role"><span>角色管理</span></a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#nav-shopinfo" data-toggle="collapse">
+              <i class="glyphicon glyphicon-asterisk"></i><span>商家信息</span>
+            </a>
+            <ul id="nav-shopinfo" class="nav collapse">
+              <li><a href="#/shopinfo/shop"><span>商家管理</span></a></li>
+              <li><a href="#/shopinfo/shopproduct"><span>商品管理</span></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page">
+      HOME
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script type="text/javascript" src="jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      initSidebarAccordion();
+      initSidebarAccordionStyle();
+
+      /* 初始化工具栏菜单单击事件 */
+      function initSidebarAccordion() {
+        var $accordion = $('#sidebar-accordion'), $router = $('#navbar-router');
+        $accordion.find('li > a').click(function(e) {
+          // 有子项时不执行任何操作
+          if ($(this).siblings('ul').length > 0) return;
+
+          // 添加active样式
+          $(this).parents('.sidebar-nav li').siblings('li').removeClass('active');
+          $(this).parents('.sidebar-nav li').addClass('active');
+
+          // 更新router内容
+          var routerContent = '';
+          $(this).parents('.sidebar-nav li').each(function(index, ele) {
+            routerContent = '<li>' + ele.children[0].outerText + '</li>' + routerContent;
+          });
+          $router.html(routerContent);
+        });
+      }
+
+      /* 隐藏工具栏 */
+      function sidebarNoneToggle() {
+        $sidebar = $('#sidebar');
+        if ($sidebar.hasClass("sidebar-none")) {
+          $sidebar.removeClass("sidebar-none");
+        } else {
+          $sidebar.addClass("sidebar-none")
+        }
+      }
+
+      /* 简版工具栏 */
+      function sidebarSimpleToggle() {
+        $sidebar = $('#sidebar');
+        $sidebar.removeClass("sidebar-none");
+        if ($sidebar.hasClass("sidebar-simple")) {
+          $sidebar.removeClass("sidebar-simple");
+        } else {
+          $sidebar.addClass("sidebar-simple")
+        }
+        initSidebarAccordionStyle();
+      }
+
+      /* 初始化工具栏菜单样式 */
+      function initSidebarAccordionStyle() {
+        $sidebar = $('#sidebar'), $accordion = $('#sidebar-accordion');
+        if ($sidebar.hasClass("sidebar-simple")) {
+          $accordion.find('a').each(function(index, ele) {
+            if (ele.dataset.toggle) {
+              $(ele).siblings('ul').collapse('hide');
+              ele.hrefbak = ele.href;
+              ele.href = undefined;
+              ele.style.cursor='default'
+            }
+          });
+        } else {
+          $accordion.find('a').each(function(index, ele) {
+            if (ele.dataset.toggle) {
+              if (ele.hrefbak) ele.href = ele.hrefbak;
+              ele.style.cursor='pointer';
+              if ($(ele).parent('li').hasClass('active')) {
+                $(ele).siblings('ul').collapse('show');
+              }
+            }
+          });
+        }
+      }
+
+    </script>
+  </body>
+</html>

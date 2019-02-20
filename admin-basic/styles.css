@@ -1,0 +1,96 @@
+/*
+ * 全局
+ */
+
+
+/*
+ * 顶部导航条
+ */
+.navbar {
+  margin-bottom: 0px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.navbar-brand {
+  margin-left: -15px;
+}
+
+.navbar-text {
+  display: inline-block;
+}
+
+.navbar-text > li {
+  display: inline-block;
+}
+
+.navbar-text > li + li:before {
+  padding: 0 5px;
+  content: "/\00a0";
+}
+
+
+/*
+ * 左侧工具条
+ */
+.sidebar {
+  position: relative;
+  min-width: 150px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding-top: 15px;
+}
+
+.sidebar-default {
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+}
+
+.sidebar-fixed-left {
+  position: fixed;
+  top: 51px; /* 50px navbar + 1px border */
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  border-radius: 0;
+  border-width: 0 1px 0 0;
+}
+
+/* 主体菜单栏 */
+.sidebar-accordion {
+  width: 150px;
+}
+
+.sidebar-nav {
+}
+
+/* 一级菜单 */
+.sidebar-nav li > a > i ~ span {
+  margin-left: 6px;
+}
+
+/* 一级菜单选中效果 */
+.sidebar-nav > li.active > a {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/* 二级菜单 */
+.sidebar-nav ul {
+  padding-left: 28px;
+}
+
+/* 二级菜单选中效果 */
+.sidebar-nav > li.active li.active > a {
+  background-color: #eee;
+}
+
+
+/*
+ * 主要内容页
+ */
+.page {
+  margin-top: 66px; /* 50px navbar + 1px border + 15px blank */
+  margin-right: 15px; 
+  margin-left: 166px; /* 150px sidebar + 1px border + 15px blank */
+}

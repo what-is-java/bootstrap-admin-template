@@ -1,0 +1,51 @@
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="javascript:" (click)="enableSidebarNone = !enableSidebarNone">管理后台</a>
+
+    <ol id="navbar-router" class="navbar-text">
+      <li *ngFor="let path of activedMenu.paths">{{path}}</li>
+    </ol>
+
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-tool" aria-expanded="true" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+
+  <div id="navbar-tool" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#/settings">设置</a></li>
+      <li><a href="#/help">帮助</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar sidebar-default sidebar-fixed-left" [class.sidebar-none]="enableSidebarNone" [class.sidebar-simple]="enableSidebarSimple">
+  <div class="sidebar-toggle">
+    <button (click)="enableSidebarSimple = !enableSidebarSimple" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-chevron-left"></span></button>
+  </div>
+
+  <div id="sidebar-accordion" class="sidebar-accordion">
+    <ul class="nav sidebar-nav">
+      <li *ngFor="let menu of menus" routerLinkActive="active">
+        <a *ngIf="!menu.hasItems" routerLink="{{menu.router}}" (click)="activedMenu = menu">
+          <i class="{{menu.icon}}"></i><span>{{menu.text}}</span>
+        </a>
+        <a *ngIf="menu.hasItems" href="javascript:" (click)="menu.showItems = !menu.showItems">
+          <i class="{{menu.icon}}"></i><span>{{menu.text}}</span>
+        </a>
+        <ul *ngIf="menu.hasItems" class="nav" [class.collapse]="!menu.showItems || enableSidebarSimple">
+          <li *ngFor="let submenu of menu.items" routerLinkActive="active">
+            <a routerLink="{{submenu.router}}" (click)="activedMenu = submenu"><span>{{submenu.text}}</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="page">
+  <router-outlet></router-outlet>
+</div>
